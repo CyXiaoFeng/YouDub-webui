@@ -1,3 +1,4 @@
+import argparse
 import gradio as gr
 from youdub.step000_video_downloader import download_from_url
 from youdub.step010_demucs_vr import separate_all_audio_under_folder
@@ -146,4 +147,16 @@ app = gr.TabbedInterface(
     tab_names=['全自动', '下载视频', '人声分离', '语音识别', '字幕翻译', '语音合成', '视频合成', '上传B站'],
     title='YouDub')
 if __name__ == '__main__':
-    app.launch()
+     # 创建参数解析器
+    parser = argparse.ArgumentParser(description='Launch the application')
+    parser.add_argument('--share', action='store_true', help='Enable sharing')
+
+    # 解析命令行参数
+    args = parser.parse_args()
+
+    # 准备启动参数
+    launch_args = {}
+    if args.share:
+        launch_args['share'] = True
+
+    app.launch(**launch_args)
